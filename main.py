@@ -31,21 +31,41 @@ robot.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 10
 #Initialise variables
 min_dist = 40
 r = 450
+turn = 1000
+direction = 1000
 
 #Define functions
-def Detect() :
-    while ((UltrasonicSensor_in_1.distance() > r) or (UltrasonicSensor_in_1.distance() > min_dist)):
-        robot.drive(0,-1000)
+def SensorValues() :
+    while True:
+        distance = UltrasonicSensor_in_1.distance()
+        print("Distance - " + distance)
+        color = ColorSensor_in_2.color()
+        print("Color - " + color)
+
+def Scan() :
+    while distance > r:
+        ev3.speaker.say("Not Detected")
+        robot.drive(0,-turn)
+    ev3.speaker.say("Detected")
     robot.stop()
+    GoToEnemy()
+
+def GoToEnemy() :
+    while (distance > min_dist) and (distance < r) :
+        robot.drive(direction)
+    Scan()
+        
 
 # Write your program here.
-ev3.speaker.beep()
-Detect()
+ev3.speaker.say("Program Started")
+SensorValues()
+Scan()
 
-#if distance is bigger than min_dist
-#while (UltrasonicSensor_in_1.distance() > min_dist) or (ColorSensor_in_2.color() == Color.BLACK | None ):
+
+
     
 
 
 
         
+ 
