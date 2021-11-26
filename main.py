@@ -51,9 +51,11 @@ def Scan() :
     GoToEnemy()
 
 def GoToEnemy() :
-    while (distance > min_dist) and (distance < r) :
-        robot.drive(direction)
-    Scan()
+    while color == Color.BLACK or None :
+        while (distance > min_dist) and (distance < r) :
+            robot.drive(direction)
+        Scan()
+    robot.stop()
         
 
 # Write your program here.
