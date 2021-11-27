@@ -33,33 +33,89 @@ min_dist = 40
 r = 450
 turn = 1000
 direction = 1000
+#Constants
+turns = 6
+nslots = 6
+#Robot
+bot_hp = 750
+bot_energy = 500
+#Attacks
+crane_damage = 200
+touch_damage = 100
+sound_damage = 50
+crane_consume = 300
+touch_consume = 150
+sound_consume = 50
+#Cures
+cure1_recovered_hp = 100
+cure2_recovered_hp = 200
+cure3_recovered_hp = 400
+cure1_consume = 200
+cure2_consume = 300
+cure3_consume = 400
+#Enemies
+tank_force = 200
+artillery_force = 500
+infantry_force = 100
+tank_nr_attacks = 2
+artillery_nr_attacks = 1
+infantry_nr_attacks = 3
+tank_hp = 200
+artillery_hp = 50
+infantry_hp = 100
 
-#Define functions
-def SensorValues() :
-    while True:
-        distance = UltrasonicSensor_in_1.distance()
-        print("Distance - " + distance)
-        color = ColorSensor_in_2.color()
-        print("Color - " + color)
+#Defining functions_______________________________
 
 def Scan() :
-    while distance > r:
-        ev3.speaker.say("Not Detected")
-        robot.drive(0,-turn)
-    ev3.speaker.say("Detected")
-    robot.stop()
-    GoToEnemy()
+    while True:
+        robot.drive(0,-1000)
+        if ((UltrasonicSensor_in_1.distance() < r) or (UltrasonicSensor_in_1.distance() < min_dist) or (ColorSensor_in_2.color() in colors_enemy)):
+            robot.stop()
+            break
 
 def GoToEnemy() :
-    while color == Color.BLACK or None :
-        while (distance > min_dist) and (distance < r) :
-            robot.drive(direction)
-        Scan()
-    robot.stop()
+    while True: 
+        robot.drive(1000,0)
+        if ((UltrasonicSensor_in_1.distance() > r) or (UltrasonicSensor_in_1.distance() < min_dist) or (ColorSensor_in_2.color() in colors_enemy)):
+            robot.stop()
+            break
 
+def touch_atack() :
+    robot.drive(-1000,0)
+    robot.straight(-100)
+    robot.turn(180)
+    robot.straight(-100)
+    robot.straight(100)
+    robot.stop()
+    robot.turn(180)
+
+def crane_atack() :
+    robot.drive(-1000,0)
+    sleep(0.5)
+    robot.stop()
+    crane_motor_out_a.run_target(1000, 360*5)
+    robot.turn(-90)
+    robot.stop()
+    robot.turn(90)
+    robot.stop()
+    crane_motor_out_a.run_target(1000, 360*5)
+
+#_________________________________________________
+
+
+
+#Defining Classes________________________________
 class Defender() :
     hp = 750
     energy = 500
+
+    def info(self) :
+        print("______________________")
+        print("_____DEFENDER-BOT_____\n")
+        print("HP : " + str(self.hp))
+        print("ENERGY : " + str(self.energy))
+        print("\n\n")
+        print("______________________")
 
     class Attack() :
         damage = 0
@@ -68,6 +124,18 @@ class Defender() :
         def __init__(self, damage, consumption) :
             self.damage = damage
             self.consumption = consumption
+
+        def do(self, enemy) :
+            print("Damaged the Enemy with")
+            enemy.hp -= self.damage
+
+        def info(self) :
+            print("______________________")
+            print("_____ATTACK_____\n")
+            print("DAMAGE : " + str(self.damage))
+            print("CONSUMPTION : " + str(self.consumption))
+            print("\n\n")
+        print("______________________")
 
     class Cure() :
         recovered_life = 0
@@ -78,39 +146,55 @@ class Defender() :
             self.consumption = consumption
 
 class Enemy() :
-    name = str("")
     hp = 0
     strenght = 0
     nr_of_attacks = 0
     impact_attack = 0
-        def __init__(self, name, hp, strenght, nr_of_attacks, impact_attack)
-            self.name = name
-            self.strenght = strenght
-            self.nr_of_attacks = nr_of_attacks
-            self.hp = hp
-            self.impact_attack = impact_attack
-# Write your program here.
-ev3.speaker.say("Program Started")
-
-Crane_Attack = Attack(200, 300)
-Touch_Attack = Attack(100, 150)
-Sound_Attack = Attack(50, 50)
-
-Cure_1 = Cure(100, 200)
-Heal_2 = Cure(200, 300)
-Heal_3 = Cure(400, 400)
-
-Tank = Enemy("Tank", 200, 200, 2, 400)
-Artillery = Enemy("Artillery", 50, 500, 1, 250)
-Infantry = Enemy("Infantry", 100, 100, 3, 100)
-SensorValues()
-Scan()
-
-
-
+    def __init__(self, hp, strenght, nr_of_attacks) :
+        self.strenght = strenght
+        self.nr_of_attacks = nr_of_attacks
+        self.hp = hp
+        self.impact_attack = hp/strenght
     
+    def info(self) :
+        print("______________________")
+        print("_____ENEMY_____\n")
+        print("HP : " + str(self.hp))
+        print("STRENGHT : " + str(self.strenght))
+        print("NR_OF_ATTACKS : " + str(self.nr_of_attacks))
+        print("IMPACT ATTACK : " + "I/A Formula needed")
+        print("\n\n")
+        print("______________________")
 
+#_________________________________________________________________________________
 
+# Write your program here.
 
-        
- 
+def main():
+
+    #Defining all attacks, cures and enemies
+
+    ev3.speaker.say("Program Started")
+
+    Defender_Bot = Defender()
+
+    Crane_Attack = Defender_Bot.Attack(crane_damage, crane_consume)
+    Touch_Attack = Defender_Bot.Attack(touch_damage, touch_consume)
+    Sound_Attack = Defender_Bot.Attack(sound_damage, sound_consume)
+
+    Cure_1 = Defender_Bot.Cure(cure1_recovered_hp, cure1_consume)
+    Heal_2 = Defender_Bot.Cure(cure2_recovered_hp, cure2_consume)
+    Heal_3 = Defender_Bot.Cure(cure3_recovered_hp, cure3_consume)
+
+    Tank = Enemy( tank_hp, tank_force, tank_nr_attacks)
+    Artillery = Enemy(artillery_hp, artillery_force, artillery_nr_attacks)
+    Infantry = Enemy(infantry_hp, infantry_force, infantry_nr_attacks)
+    #________________________________________________________________
+
+    #Begin your code here________________________________________
+    print("Hello World!")
+    #____________________________________________________________
+
+#MAIN FUNCTION
+if __name__ == '__main__':
+   main()
