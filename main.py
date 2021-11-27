@@ -64,15 +64,47 @@ infantry_nr_attacks = 3
 tank_hp = 200
 artillery_hp = 50
 infantry_hp = 100
-
+enemies = 0
 #Defining functions_______________________________
 
-def Scan() :
-    while True:
-        robot.drive(0,-1000)
-        if ((UltrasonicSensor_in_1.distance() < r) or (UltrasonicSensor_in_1.distance() < min_dist) or (ColorSensor_in_2.color() in colors_enemy)):
-            robot.stop()
-            break
+def Scan() : 
+    global enemies
+    colorDetected = False
+    while colorDetected == False :
+        if UltrasonicSensor_in_1.distance() > r :
+            robot.drive(0,-turn_rate)
+        else :
+            print("EnemyFound!")
+            enemies += 1
+            colorDetected = True
+        # elif UltrasonicSensor_in_1.distance() > min_dist :
+        #     robot.drive(straight_speed,0)
+            
+        # elif ColorSensor_in_2.color() not in colors_enemy :
+        #     robot.stop()
+        #     colorDetected = True
+        #     enemies + 1
+        #     print("Color Detected and Distance is Less than 4cm")
+            
+def CountEnemies() :
+    global enemies
+    enemies = 0
+    GyroSensor_in_3.reset_angle(0)
+    
+    while GyroSensor_in_3.angle() > -360 :
+        if UltrasonicSensor_in_1.distance() < r :
+            robot.drive(0, -turn_rate)
+            
+        elif UltrasonicSensor_in_1.distance() > r :
+            Scan()
+            
+        else :
+            colorDetected = False
+            
+    robot.straight(0)
+    if GyroSensor_in_3.angle() < -370 :
+        enemies -= 1
+    print(enemies)
 
 def GoToEnemy() :
     while True: 
