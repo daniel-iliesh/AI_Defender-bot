@@ -12,7 +12,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 # Click "Open user guide" on the EV3 extension tab for more information.
 
 
-#Algorithms here_____________________________________________________________
+
 #Constants
 turns = 6
  nslots = 6
@@ -109,97 +109,7 @@ class Enemy() :
         pr("IMPACT ATTACK : " + str(self.name))
         pr("\n\n")
         pr("______________________")
-
-#End of Algorithms Here_______________________________________________________
-
-
-# Create your objects here.
-ev3 = EV3Brick()
-UltrasonicSensor_in_1 = UltrasonicSensor(Port.S1)
-ColorSensor_in_2 = ColorSensor(Port.S2) 
-GyroSensor_in_3 = GyroSensor(Port.S3)
-TouchSensor_in_4 = TouchSensor(Port.S4)
-
-#Initialise Motors
-crane_motor_out_a = Motor(Port.A)
-left_motor_out_b = Motor(Port.B)
-right_motor_out_c = Motor(Port.C)
-
-#Initialise DriveBase
-robot = DriveBase(left_motor_out_b, right_motor_out_c, wheel_diameter=35, axle_track=175)
-robot.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 1000, turn_acceleration = 1000)
-
-#Initialise variables
-min_dist = 40
-r = 450
-turn = 1000
-direction = 1000
-
-#Define functions
-def SensorValues() :
-    while True:
-        distance = UltrasonicSensor_in_1.distance()
-        print("Distance - " + distance)
-        color = ColorSensor_in_2.color()
-        print("Color - " + color)
-
-def Scan() :
-    while distance > r:
-        ev3.speaker.say("Not Detected")
-        robot.drive(0,-turn)
-    ev3.speaker.say("Detected")
-    robot.stop()
-    GoToEnemy()
-
-def GoToEnemy() :
-    while color == Color.BLACK or None :
-        while (distance > min_dist) and (distance < r) :
-            robot.drive(direction)
-        Scan()
-    robot.stop()
-
-class Defender() :
-    hp = 750
-    energy = 500
-
-    class Attack() :
-        damage = 0
-        consumption = 0
-
-        def __init__(self, damage, consumption) :
-            self.damage = damage
-            self.consumption = consumption
-
-        def do(self, enemy) :
-            enemy.hp -= self.damage
-
-        def info(self) :
-            print("DAMAGE : " + self.damage)
-            print("CONSUMPTION : " + self.consumption)
-
-            
-    class Cure() :
-        recovered_life = 0
-        consumption = 0
-
-        def __init__(self, recovered_life, consumption) :
-            self.recovered_life = recovered_life
-            self.consumption = consumption
-
-    
-
-class Enemy() :
-    name = str("")
-    hp = 0
-    strenght = 0
-    nr_of_attacks = 0
-    impact_attack = 0
-        def __init__(self, name, hp, strenght, nr_of_attacks, impact_attack)
-            self.name = name
-            self.strenght = strenght
-            self.nr_of_attacks = nr_of_attacks
-            self.hp = hp
-            self.impact_attack = impact_attack
+        
 
 def main():
 
