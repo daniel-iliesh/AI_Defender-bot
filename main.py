@@ -56,10 +56,53 @@ def GoToEnemy() :
             robot.drive(direction)
         Scan()
     robot.stop()
-        
 
+class Defender() :
+    hp = 750
+    energy = 500
+
+    class Attack() :
+        damage = 0
+        consumption = 0
+
+        def __init__(self, damage, consumption) :
+            self.damage = damage
+            self.consumption = consumption
+
+    class Cure() :
+        recovered_life = 0
+        consumption = 0
+
+        def __init__(self, recovered_life, consumption) :
+            self.recovered_life = recovered_life
+            self.consumption = consumption
+
+class Enemy() :
+    name = str("")
+    hp = 0
+    strenght = 0
+    nr_of_attacks = 0
+    impact_attack = 0
+        def __init__(self, name, hp, strenght, nr_of_attacks, impact_attack)
+            self.name = name
+            self.strenght = strenght
+            self.nr_of_attacks = nr_of_attacks
+            self.hp = hp
+            self.impact_attack = impact_attack
 # Write your program here.
 ev3.speaker.say("Program Started")
+
+Crane_Attack = Attack(200, 300)
+Touch_Attack = Attack(100, 150)
+Sound_Attack = Attack(50, 50)
+
+Cure_1 = Cure(100, 200)
+Heal_2 = Cure(200, 300)
+Heal_3 = Cure(400, 400)
+
+Tank = Enemy("Tank", 200, 200, 2, 400)
+Artillery = Enemy("Artillery", 50, 500, 1, 250)
+Infantry = Enemy("Infantry", 100, 100, 3, 100)
 SensorValues()
 Scan()
 
