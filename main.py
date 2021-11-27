@@ -12,6 +12,27 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 # Click "Open user guide" on the EV3 extension tab for more information.
 
 
+# Create your objects here.
+ev3 = EV3Brick()
+UltrasonicSensor_in_1 = UltrasonicSensor(Port.S1)
+ColorSensor_in_2 = ColorSensor(Port.S2) 
+GyroSensor_in_3 = GyroSensor(Port.S3)
+TouchSensor_in_4 = TouchSensor(Port.S4)
+
+#Initialise Motors
+crane_motor_out_a = Motor(Port.A)
+left_motor_out_b = Motor(Port.B)
+right_motor_out_c = Motor(Port.C)
+
+#Initialise DriveBase
+robot = DriveBase(left_motor_out_b, right_motor_out_c, wheel_diameter=35, axle_track=175)
+robot.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 1000, turn_acceleration = 1000)
+
+#Initialise variables
+min_dist = 40
+r = 450
+turn = 1000
+direction = 1000
 #Constants
 turns = 6
 nslots = 6
@@ -43,7 +64,47 @@ tank_hp = 200
 artillery_hp = 50
 infantry_hp = 100
 
+#Defining functions_______________________________
 
+def Scan() :
+    while True:
+        robot.drive(0,-1000)
+        if ((UltrasonicSensor_in_1.distance() < r) or (UltrasonicSensor_in_1.distance() < min_dist) or (ColorSensor_in_2.color() in colors_enemy)):
+            robot.stop()
+            break
+
+def GoToEnemy() :
+    while True: 
+        robot.drive(1000,0)
+        if ((UltrasonicSensor_in_1.distance() > r) or (UltrasonicSensor_in_1.distance() < min_dist) or (ColorSensor_in_2.color() in colors_enemy)):
+            robot.stop()
+            break
+
+def touch_atack() :
+    robot.drive(-1000,0)
+    robot.straight(-100)
+    robot.turn(180)
+    robot.straight(-100)
+    robot.straight(100)
+    robot.stop()
+    robot.turn(180)
+
+def crane_atack() :
+    robot.drive(-1000,0)
+    sleep(0.5)
+    robot.stop()
+    crane_motor_out_a.run_target(1000, 360*5)
+    robot.turn(-90)
+    robot.stop()
+    robot.turn(90)
+    robot.stop()
+    crane_motor_out_a.run_target(1000, 360*5)
+
+#_________________________________________________
+
+
+
+#Defining Classes________________________________
 class Defender() :
     hp = 750
     energy = 500
@@ -55,7 +116,6 @@ class Defender() :
         print("ENERGY : " + str(self.energy))
         print("\n\n")
         print("______________________")
-
 
     class Attack() :
         damage = 0
@@ -77,7 +137,6 @@ class Defender() :
             print("\n\n")
         print("______________________")
 
-            
     class Cure() :
         recovered_life = 0
         consumption = 0
@@ -85,8 +144,6 @@ class Defender() :
         def __init__(self, recovered_life, consumption) :
             self.recovered_life = recovered_life
             self.consumption = consumption
-    
-    
 
 class Enemy() :
     hp = 0
@@ -108,11 +165,16 @@ class Enemy() :
         print("IMPACT ATTACK : " + "I/A Formula needed")
         print("\n\n")
         print("______________________")
-        
+
+#_________________________________________________________________________________
+
+# Write your program here.
 
 def main():
 
     #Defining all attacks, cures and enemies
+
+    ev3.speaker.say("Program Started")
 
     Defender_Bot = Defender()
 
@@ -127,24 +189,12 @@ def main():
     Tank = Enemy( tank_hp, tank_force, tank_nr_attacks)
     Artillery = Enemy(artillery_hp, artillery_force, artillery_nr_attacks)
     Infantry = Enemy(infantry_hp, infantry_force, infantry_nr_attacks)
-
     #________________________________________________________________
 
-    Defender_Bot.info()
-    Crane_Attack.info()
-    Tank.info()
+    #Begin your code here________________________________________
+    print("Hello World!")
+    #____________________________________________________________
 
-    Crane_Attack.do(Tank)
-    Tank.info()
-
+#MAIN FUNCTION
 if __name__ == '__main__':
    main()
-
-
-
-    
-
-
-
-        
- 
