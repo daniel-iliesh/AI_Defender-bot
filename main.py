@@ -12,37 +12,36 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 # Click "Open user guide" on the EV3 extension tab for more information.
 
 
-
 #Constants
 turns = 6
- nslots = 6
+nslots = 6
 #Robot
- bot_hp = 750
- bot_energy = 500
+bot_hp = 750
+bot_energy = 500
 #Attacks
- crane_damage = 200
- touch_damage = 100
- sound_damage = 50
- crane_consume = 300
- touch_consume = 150
- sound_consume = 50
+crane_damage = 200
+touch_damage = 100
+sound_damage = 50
+crane_consume = 300
+touch_consume = 150
+sound_consume = 50
 #Cures
- cure1_recovered_hp = 100
- cure2_recovered_hp = 200
- cure3_recovered_hp = 400
- cure1_consume = 200
- cure2_consume = 300
- cure3_consume = 400
+cure1_recovered_hp = 100
+cure2_recovered_hp = 200
+cure3_recovered_hp = 400
+cure1_consume = 200
+cure2_consume = 300
+cure3_consume = 400
 #Enemies
- tank_force = 200
- artillery_force = 500
- infantry_force = 100
- tank_nr_attacks = 2
- artillery_nr_attacks = 1
- infantry_nr_attacks = 3
- tank_hp = 200
- artillery_hp = 50
- infantry_hp = 100
+tank_force = 200
+artillery_force = 500
+infantry_force = 100
+tank_nr_attacks = 2
+artillery_nr_attacks = 1
+infantry_nr_attacks = 3
+tank_hp = 200
+artillery_hp = 50
+infantry_hp = 100
 
 
 class Defender() :
@@ -50,12 +49,12 @@ class Defender() :
     energy = 500
 
     def info(self) :
-        pr("______________________")
-        pr("_____DEFENDER-BOT_____\n")
-        pr("HP : " + str(self.hp))
-        pr("ENERGY : " + str(self.energy))
-        pr("\n\n")
-        pr("______________________")
+        print("______________________")
+        print("_____DEFENDER-BOT_____\n")
+        print("HP : " + str(self.hp))
+        print("ENERGY : " + str(self.energy))
+        print("\n\n")
+        print("______________________")
 
 
     class Attack() :
@@ -67,16 +66,16 @@ class Defender() :
             self.consumption = consumption
 
         def do(self, enemy) :
-            pr("Damaged the Enemy with")
+            print("Damaged the Enemy with")
             enemy.hp -= self.damage
 
         def info(self) :
-            pr("______________________")
-            pr("_____ATTACK_____\n")
-            pr("DAMAGE : " + str(self.damage))
-            pr("CONSUMPTION : " + str(self.consumption))
-            pr("\n\n")
-        pr("______________________")
+            print("______________________")
+            print("_____ATTACK_____\n")
+            print("DAMAGE : " + str(self.damage))
+            print("CONSUMPTION : " + str(self.consumption))
+            print("\n\n")
+        print("______________________")
 
             
     class Cure() :
@@ -101,14 +100,14 @@ class Enemy() :
         self.impact_attack = hp/strenght
     
     def info(self) :
-        pr("______________________")
-        pr("_____ENEMY_____\n")
-        pr("HP : " + str(self.hp))
-        pr("STRENGHT : " + str(self.strenght))
-        pr("NR_OF_ATTACKS : " + str(self.nr_of_attacks))
-        pr("IMPACT ATTACK : " + str(self.name))
-        pr("\n\n")
-        pr("______________________")
+        print("______________________")
+        print("_____ENEMY_____\n")
+        print("HP : " + str(self.hp))
+        print("STRENGHT : " + str(self.strenght))
+        print("NR_OF_ATTACKS : " + str(self.nr_of_attacks))
+        print("IMPACT ATTACK : " + "I/A Formula needed")
+        print("\n\n")
+        print("______________________")
         
 
 def main():
