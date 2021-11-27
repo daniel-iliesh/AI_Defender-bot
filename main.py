@@ -33,6 +33,7 @@ min_dist = 40
 r = 450
 turn = 1000
 direction = 1000
+colors_enemy = (Color.BLUE, Color.YELLOW, Color.RED) 
 #Constants
 turns = 6
 nslots = 6
