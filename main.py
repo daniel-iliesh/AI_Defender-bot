@@ -82,7 +82,7 @@ def Scan() :
             robot.drive(0, -turn_rate)
         else:
             enemyDetected = True
-            print("EnemyDetected")
+            # print("EnemyDetected")
             
 def LoseEnemy():
     global enemyDetected
@@ -90,7 +90,7 @@ def LoseEnemy():
         while UltrasonicSensor_in_1.distance() < r:
             robot.drive(0, -turn_rate)
         else:
-            print("EnemyLosed")
+            # print("EnemyLosed")
             enemyDetected = False
             
 def CountEnemies() :
@@ -110,17 +110,18 @@ def CountEnemies() :
             enemies += 1
             enemies_positions.append(GyroSensor_in_3.angle())
             enemies_distances.append(UltrasonicSensor_in_1.distance())
+            print("Slot # :" + str(enemies) + " found on :" + str(GyroSensor_in_3.angle()) + "° at :" + str(UltrasonicSensor_in_1.distance()) +"cm")
     
-    print("There was counted " + str(enemies) + " enemies")
-    print(enemies_positions)
-    print(enemies_distances)
+    print("Bot found " + str(enemies) + " enemies")
     accumulated_angle = GyroSensor_in_3.angle()
     robot.stop()
     
         
 def GoToEnemy(slot):
+    global recorded_moves
     slot -= 1
-    robot.turn(enemies_positions[slot]-accumulated_angle-18)
+    GyroSensor_in_3.reset_angle(0)
+    robot.turn(enemies_positions[slot]-accumulated_angle-15)
     while colorDetected == False:
         if UltrasonicSensor_in_1.distance() > enemies_distances[slot] :
             robot.drive(0, -turn_rate)
@@ -135,12 +136,11 @@ def GoToEnemy(slot):
                 break
             
 def GetBack(slot):
-    print(enemies_distances[slot])
-    inThePosition = False
-    while inThePosition == False:
+    while True:
         robot.turn(-180)
         robot.straight(enemies_distances[slot]*12.5)
-        inThePosition = True
+        robot.turn(-(enemies_positions[slot]))
+        break
 
 def touch_atack() :
     robot.drive(-1000,0)
