@@ -25,18 +25,20 @@ left_motor_out_b = Motor(Port.B)
 right_motor_out_c = Motor(Port.C)
 
 #Initialise DriveBase
+straight_speed=200
+straight_acceleration=100
+turn_rate=100
+turn_acceleration = 100
+
 robot = DriveBase(left_motor_out_b, right_motor_out_c, wheel_diameter=35, axle_track=175)
-robot.settings(straight_speed = 500, straight_acceleration = 500, turn_rate = 1000, turn_acceleration = 1000)
+robot.settings(straight_speed, straight_acceleration, turn_rate, turn_acceleration)
 
 #Initialise variables
 min_dist = 40
 r = 450
-turn = 1000
-direction = 1000
-colors_enemy = (Color.BLUE, Color.YELLOW, Color.RED) 
+colors_enemy = (Color.BLUE, Color.YELLOW, Color.RED)
 #Constants
 turns = 6
-nslots = 6
 #Robot
 bot_hp = 750
 bot_energy = 500
@@ -64,54 +66,81 @@ infantry_nr_attacks = 3
 tank_hp = 200
 artillery_hp = 50
 infantry_hp = 100
+
 enemies = 0
+colorDetected = False
+enemies_positions = []
+enemies_distances = []
+
 #Defining functions_______________________________
 
 def Scan() : 
-    global enemies
-    colorDetected = False
-    while colorDetected == False :
-        if UltrasonicSensor_in_1.distance() > r :
-            robot.drive(0,-turn_rate)
-        else :
-            print("EnemyFound!")
-            enemies += 1
-            colorDetected = True
-        # elif UltrasonicSensor_in_1.distance() > min_dist :
-        #     robot.drive(straight_speed,0)
+    global enemyDetected
+    
+    if enemyDetected == False :
+        while UltrasonicSensor_in_1.distance() > r:
+            robot.drive(0, -turn_rate)
+        else:
+            enemyDetected = True
+            print("EnemyDetected")
             
-        # elif ColorSensor_in_2.color() not in colors_enemy :
-        #     robot.stop()
-        #     colorDetected = True
-        #     enemies + 1
-        #     print("Color Detected and Distance is Less than 4cm")
+def LoseEnemy():
+    global enemyDetected
+    if enemyDetected == True:
+        while UltrasonicSensor_in_1.distance() < r:
+            robot.drive(0, -turn_rate)
+        else:
+            print("EnemyLosed")
+            enemyDetected = False
             
 def CountEnemies() :
-    global enemies
+    global enemyDetected, accumulated_angle
     enemies = 0
+    enemies_positions.clear()
+    enemies_distances.clear()
     GyroSensor_in_3.reset_angle(0)
     
-    while GyroSensor_in_3.angle() > -360 :
-        if UltrasonicSensor_in_1.distance() < r :
+    if UltrasonicSensor_in_1.distance() < r:
+        enemyDetected = True
+    
+    while GyroSensor_in_3.angle() > -360 and enemies < enemies_total:
+        LoseEnemy()
+        Scan()
+        if enemyDetected == True:
+            enemies += 1
+            enemies_positions.append(GyroSensor_in_3.angle())
+            enemies_distances.append(UltrasonicSensor_in_1.distance())
+    
+    print("There was counted " + str(enemies) + " enemies")
+    print(enemies_positions)
+    print(enemies_distances)
+    accumulated_angle = GyroSensor_in_3.angle()
+    robot.stop()
+    
+        
+def GoToEnemy(slot):
+    slot -= 1
+    robot.turn(enemies_positions[slot]-accumulated_angle-18)
+    while colorDetected == False:
+        if UltrasonicSensor_in_1.distance() > enemies_distances[slot] :
             robot.drive(0, -turn_rate)
-            
-        elif UltrasonicSensor_in_1.distance() > r :
-            Scan()
-            
-        else :
-            colorDetected = False
-            
-    robot.straight(0)
-    if GyroSensor_in_3.angle() < -370 :
-        enemies -= 1
-    print(enemies)
-
-def GoToEnemy() :
-    while True: 
-        robot.drive(1000,0)
-        if ((UltrasonicSensor_in_1.distance() > r) or (UltrasonicSensor_in_1.distance() < min_dist) or (ColorSensor_in_2.color() in colors_enemy)):
+        if UltrasonicSensor_in_1.distance() > min_dist and UltrasonicSensor_in_1.distance() < enemies_distances[slot] :
+            robot.drive(straight_speed, 0)
+        elif UltrasonicSensor_in_1.distance() < min_dist :
             robot.stop()
-            break
+            if ColorSensor_in_2.color() not in colors_enemy :
+                robot.drive(0, -50)
+            else :
+                print(ColorSensor_in_2.color())
+                break
+            
+def GetBack(slot):
+    print(enemies_distances[slot])
+    inThePosition = False
+    while inThePosition == False:
+        robot.turn(-180)
+        robot.straight(enemies_distances[slot]*12.5)
+        inThePosition = True
 
 def touch_atack() :
     robot.drive(-1000,0)
@@ -226,6 +255,7 @@ def main():
 
     #Begin your code here________________________________________
     print("Hello World!")
+    CountEnemies()
     #____________________________________________________________
 
 #MAIN FUNCTION

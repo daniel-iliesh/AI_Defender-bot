@@ -1,7 +1,9 @@
+import random
+from random import randint
+
 
 #Constants
-turns = 6
-nslots = 6
+gameStarted = False
 #Robot
 bot_hp = 750
 bot_energy = 500
@@ -30,6 +32,32 @@ tank_hp = 200
 artillery_hp = 50
 infantry_hp = 100
 
+defender_moves = 6
+attackers_moves = 7
+
+enemy_slots = []
+
+total_moves_left = defender_moves + attackers_moves
+
+def ChooseYourDestiny() : 
+    generated_order = random.sample(range(0, 6), 6)
+    print(generated_order)
+    
+    for x in range(0, 6) :
+        dice1 = randint(1, 6)
+        if (dice1 == 1) or (dice1 == 2)  :
+            aux_enemy = "Tank"
+        elif (dice1 == 3) or (dice1 == 4) :
+            aux_enemy = "Art"
+        elif (dice1 == 5) or (dice1 == 6) :
+            aux_enemy = "Inf"
+
+        dice2 = generated_order[x]
+        enemy_slots.insert(dice2, aux_enemy)
+        print("Inserted " + str(aux_enemy) + " in slot " + str(dice2+1))
+        
+        x += 1
+    print("EnemySlots :----  " + str(enemy_slots))
 
 class Defender() :
     hp = 750
@@ -100,29 +128,26 @@ class Enemy() :
 def main():
 
     #Defining all attacks, cures and enemies
+    gameStarted = True
+    if gameStarted == True :
 
-    Defender_Bot = Defender()
+        Defender_Bot = Defender()
 
-    Crane_Attack = Defender_Bot.Attack(crane_damage, crane_consume)
-    Touch_Attack = Defender_Bot.Attack(touch_damage, touch_consume)
-    Sound_Attack = Defender_Bot.Attack(sound_damage, sound_consume)
+        Crane_Attack = Defender_Bot.Attack(crane_damage, crane_consume)
+        Touch_Attack = Defender_Bot.Attack(touch_damage, touch_consume)
+        Sound_Attack = Defender_Bot.Attack(sound_damage, sound_consume)
 
-    Cure_1 = Defender_Bot.Cure(cure1_recovered_hp, cure1_consume)
-    Heal_2 = Defender_Bot.Cure(cure2_recovered_hp, cure2_consume)
-    Heal_3 = Defender_Bot.Cure(cure3_recovered_hp, cure3_consume)
+        Cure_1 = Defender_Bot.Cure(cure1_recovered_hp, cure1_consume)
+        Heal_2 = Defender_Bot.Cure(cure2_recovered_hp, cure2_consume)
+        Heal_3 = Defender_Bot.Cure(cure3_recovered_hp, cure3_consume)
 
-    Tank = Enemy( tank_hp, tank_force, tank_nr_attacks)
-    Artillery = Enemy(artillery_hp, artillery_force, artillery_nr_attacks)
-    Infantry = Enemy(infantry_hp, infantry_force, infantry_nr_attacks)
+        Tank = Enemy( tank_hp, tank_force, tank_nr_attacks)
+        Art = Enemy(artillery_hp, artillery_force, artillery_nr_attacks)
+        Inf = Enemy(infantry_hp, infantry_force, infantry_nr_attacks)
+        #________________________________________________________________
 
-    #________________________________________________________________
-
-    Defender_Bot.info()
-    Crane_Attack.info()
-    Tank.info()
-
-    Crane_Attack.do(Tank)
-    Tank.info()
+        ChooseYourDestiny()
+        # RandEnemies()
 
 if __name__ == '__main__':
    main()
