@@ -117,4 +117,3 @@ def ThrowDice1() :
 
 def stop_program() :
     quit()
-

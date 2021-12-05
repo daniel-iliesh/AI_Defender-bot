@@ -9,7 +9,6 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from brains import *
 from remote import *
 
-
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -27,29 +26,22 @@ left_motor_out_b = Motor(Port.B)
 right_motor_out_c = Motor(Port.C)
 
 #Initialise DriveBase
-straight_speed=200
-straight_acceleration=100
-turn_rate=100
-turn_acceleration = 100
-
 robot = DriveBase(left_motor_out_b, right_motor_out_c, wheel_diameter=35, axle_track=175)
-robot.settings(straight_speed, straight_acceleration, turn_rate, turn_acceleration)
+robot.settings(vars['straight_speed'], vars['straight_acceleration'], vars['turn_rate'], vars['turn_acceleration'])
 
 #Initialise variables
 colors_enemy = (Color.BLUE, Color.YELLOW, Color.RED)
-
 
 colorDetected = False
 enemyDetected = False
 
 #Defining functions_______________________________
-
 def Scan() : 
     global enemyDetected
     
     if enemyDetected == False :
         while UltrasonicSensor_in_1.distance() > vars['r']:
-            robot.drive(0, -turn_rate)
+            robot.drive(0, -vars['turn_rate'])
         else:
             enemyDetected = True
             # print("EnemyDetected")
@@ -58,7 +50,7 @@ def LoseEnemy():
     global enemyDetected
     if enemyDetected == True:
         while UltrasonicSensor_in_1.distance() < vars['r']:
-            robot.drive(0, -turn_rate)
+            robot.drive(0, -vars['turn_rate'])
         else:
             # print("EnemyLosed")
             enemyDetected = False
@@ -86,7 +78,6 @@ def CountEnemies() :
     accumulated_angle = GyroSensor_in_3.angle()
     robot.stop()
     
-        
 def GoToEnemy(slot):
     global recorded_moves
     slot -= 1
@@ -94,9 +85,9 @@ def GoToEnemy(slot):
     robot.turn(vars['enemies_positions'][slot]-accumulated_angle-15)
     while colorDetected == False:
         if UltrasonicSensor_in_1.distance() > vars['enemies_distances'][slot] :
-            robot.drive(0, -turn_rate)
+            robot.drive(0, -vars['turn_rate'])
         if UltrasonicSensor_in_1.distance() > vars['min_dist'] and UltrasonicSensor_in_1.distance() < vars['enemies_distances'][slot] :
-            robot.drive(straight_speed, 0)
+            robot.drive(vars['straight_speed'], 0)
         elif UltrasonicSensor_in_1.distance() < vars['min_dist'] :
             robot.stop()
             if ColorSensor_in_2.color() not in colors_enemy :
@@ -132,11 +123,7 @@ def crane_atack() :
     robot.stop()
     crane_motor_out_a.run_target(1000, 360*5)
 
-#_________________________________________________
-
-
 # Write your program here.
-
 def main():
 
     ev3.speaker.say("Program Started")
@@ -144,7 +131,5 @@ def main():
     print("Hello World!")
     CountEnemies()
     
-
-#MAIN FUNCTION
 if __name__ == '__main__':
    main()

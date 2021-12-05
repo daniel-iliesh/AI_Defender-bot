@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from brains import *
-import brains
+import main
 import importlib
 
 root = Tk()
@@ -173,7 +173,8 @@ def turn_acceleration_change(var, indx, mode) :
     vars['turn_acceleration'] = turn_acceleration_entry.get() 
 
 def start_program() :
-    importlib.reload(brains)
+    importlib.reload(main)
+    print("Bot_HP now is " + vars['bot_hp'])
 
 def stop_program() :
     vars['getStarted'] = False
