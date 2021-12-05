@@ -1,10 +1,9 @@
-from tkinter import *
-from tkinter.ttk import *
+import tkinter as tk
 from brains import *
-import main
+# import main
 import importlib
 
-root = Tk()
+root = tk.Tk()
 
 window_width = 800
 window_height = 600
@@ -22,6 +21,7 @@ root.resizable(False, False)
 # set the position of the window to the center of the screen
 root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 
+#######################################__________________VARIABLES________________________############################################
 vars = {
     'bot_hp' : 750,
     'bot_energy' : 500,
@@ -173,12 +173,12 @@ def turn_acceleration_change(var, indx, mode) :
     vars['turn_acceleration'] = turn_acceleration_entry.get() 
 
 def start_program() :
-    importlib.reload(main)
-    print("Bot_HP now is " + vars['bot_hp'])
+    # importlib.reload(main)
+    print('Program was started! ')
+    print("Bot_HP now is " + str(vars['bot_hp']))
 
 def stop_program() :
     vars['getStarted'] = False
-
 
 #Add traces for onchange events
 bot_hp_var.trace_add('write', bot_hp_change)
@@ -212,27 +212,28 @@ straight_acceleration_var.trace_add('write', straight_acceleration_change)
 turn_rate_var.trace_add('write', turn_rate_change)
 turn_acceleration_var.trace_add('write', turn_acceleration_change)
 
+#######################################______________CREATING_____________________##############################################
 #LabelFrames creating
-bot_label_frame = LabelFrame(root, text='Defender')
-bot_frame = LabelFrame(bot_label_frame, text='Bot')
+bot_label_frame = tk.LabelFrame(root, text='Defender')
+bot_frame = tk.LabelFrame(bot_label_frame, text='Bot')
 
-bot_attacks_frame = LabelFrame(bot_label_frame, text='Attacks')
-crane_frame = LabelFrame(bot_attacks_frame, text='Crane')
-touch_frame = LabelFrame(bot_attacks_frame, text='Touch')
-sound_frame = LabelFrame(bot_attacks_frame, text='Sound')
+bot_attacks_frame = tk.LabelFrame(bot_label_frame, text='Attacks', bg='red')
+crane_frame = tk.LabelFrame(bot_attacks_frame, text='Crane')
+touch_frame = tk.LabelFrame(bot_attacks_frame, text='Touch')
+sound_frame = tk.LabelFrame(bot_attacks_frame, text='Sound')
 
-cures_label_frame = LabelFrame(bot_label_frame, text='Cures')
-cure1_frame = LabelFrame(cures_label_frame, text='Cure 1')
-cure2_frame = LabelFrame(cures_label_frame, text='Cure 2')
-cure3_frame = LabelFrame(cures_label_frame, text='Cure 3')
+cures_label_frame = tk.LabelFrame(bot_label_frame, text='Cures', bg='blue')
+cure1_frame = tk.LabelFrame(cures_label_frame, text='Cure 1')
+cure2_frame = tk.LabelFrame(cures_label_frame, text='Cure 2')
+cure3_frame = tk.LabelFrame(cures_label_frame, text='Cure 3')
 
+parent_frame = tk.Frame(root)
+enemies_label_frame = tk.LabelFrame(parent_frame, text='Enemies')
+tank_frame = tk.LabelFrame(enemies_label_frame, text='Tank')
+art_frame = tk.LabelFrame(enemies_label_frame, text='Artillery')
+inf_frame = tk.LabelFrame(enemies_label_frame, text='Infantry')
 
-enemies_label_frame = LabelFrame(root, text='Enemies')
-tank_frame = LabelFrame(enemies_label_frame, text='Tank')
-art_frame = LabelFrame(enemies_label_frame, text='Artillery')
-inf_frame = LabelFrame(enemies_label_frame, text='Infantry')
-
-other_label_frame = LabelFrame(root, text="Other")
+other_label_frame = tk.LabelFrame(parent_frame, text="Other")
 
 
 #________________LABELS CREATE___________________
@@ -333,115 +334,118 @@ turn_rate_entry = Entry(other_label_frame, justify=CENTER, textvariable=turn_rat
 turn_acceleration_entry = Entry(other_label_frame, justify=CENTER, textvariable=turn_acceleration_var)
 
 #Create Buttons 
-start_button = Button(root, text='Start Program', command=start_program)
-stop_button = Button(root, text='Stop Program', command=stop_program)
+start_button = Button(parent_frame, text='Start Program', command=start_program)
+stop_button = Button(parent_frame, text='Stop Program', command=stop_program)
 
+######################################################_________________DISPLAYING_______________#####################################################################
 #Labels display
-bot_hp_label.grid(column='0', row='0')
-bot_energy_label.grid(column='0', row='1')
+bot_hp_label.grid(sticky='W', column='0', row='0')
+bot_energy_label.grid(sticky='W', column='0', row='1')
 
-crane_damage_label.grid(column='0', row='2')
-crane_consume_label.grid(column='0', row='3')
+crane_damage_label.grid(sticky='W', column='0', row='2')
+crane_consume_label.grid(sticky='W', column='0', row='3')
 
-touch_damage_label.grid(column='0', row='4')
-touch_consume_label.grid(column='0', row='5')
+touch_damage_label.grid(sticky='W', column='0', row='4')
+touch_consume_label.grid(sticky='W', column='0', row='5')
 
-sound_damage_label.grid(column='0', row='6')
-sound_consume_label.grid(column='0', row='7')
+sound_damage_label.grid(sticky='W', column='0', row='6')
+sound_consume_label.grid(sticky='W', column='0', row='7')
 
-cure1_recovered_hp_label.grid(column='0', row='8')
-cure1_consume_label.grid(column='0', row='9')
+cure1_recovered_hp_label.grid(sticky='W', column='0', row='8')
+cure1_consume_label.grid(sticky='W', column='0', row='9')
 
-cure2_recovered_hp_label.grid(column='0', row='10')
-cure2_consume_label.grid(column='0', row='11')
+cure2_recovered_hp_label.grid(sticky='W', column='0', row='10')
+cure2_consume_label.grid(sticky='W', column='0', row='11')
 
-cure3_recovered_hp_label.grid(column='0', row='12')
-cure3_consume_label.grid(column='0', row='13')
+cure3_recovered_hp_label.grid(sticky='W', column='0', row='12')
+cure3_consume_label.grid(sticky='W', column='0', row='13')
 
-tank_hp_label.grid(column='0', row='14')
-tank_force_label.grid(column='0', row='15')
-tank_nr_attacks_label.grid(column='0', row='16')
+tank_hp_label.grid(sticky='W', column='0', row='14')
+tank_force_label.grid(sticky='W', column='0', row='15')
+tank_nr_attacks_label.grid(sticky='W', column='0', row='16')
 
-artillery_hp_label.grid(column='0', row='17')
-artillery_force_label.grid(column='0', row='18')
-artillery_nr_attacks_label.grid(column='0', row='19')
+artillery_hp_label.grid(sticky='W', column='0', row='17')
+artillery_force_label.grid(sticky='W', column='0', row='18')
+artillery_nr_attacks_label.grid(sticky='W', column='0', row='19')
 
-infantry_hp_label.grid(column='0', row='20')
-infantry_force_label.grid(column='0', row='21')
-infantry_nr_attacks_label.grid(column='0', row='22')
+infantry_hp_label.grid(sticky='W', column='0', row='20')
+infantry_force_label.grid(sticky='W', column='0', row='21')
+infantry_nr_attacks_label.grid(sticky='W', column='0', row='22')
 
-min_dist_label.grid(column='0', row='23')
-r_label.grid(column='0', row='24')
-straight_speed_label.grid(column='0', row='25')
-straight_acceleration_label.grid(column='0', row='26')
-turn_rate_label.grid(column='0', row='27')
-turn_acceleration_label.grid(column='0', row='28')
+min_dist_label.grid(sticky='W', column='0', row='23')
+r_label.grid(sticky='W', column='0', row='24')
+straight_speed_label.grid(sticky='W', column='0', row='25')
+straight_acceleration_label.grid(sticky='W', column='0', row='26')
+turn_rate_label.grid(sticky='W', column='0', row='27')
+turn_acceleration_label.grid(sticky='W', column='0', row='28')
 
 #Entries Display
-bot_hp_entry.grid(column='1', row='0')
-bot_energy_entry.grid(column='1', row='1')
+bot_hp_entry.grid(sticky='W', column='1', row='0')
+bot_energy_entry.grid(sticky='W', column='1', row='1')
 
-crane_damage_entry.grid(column='1', row='2')
-crane_consume_entry.grid(column='1', row='3')
+crane_damage_entry.grid(sticky='W', column='1', row='2')
+crane_consume_entry.grid(sticky='W', column='1', row='3')
 
-touch_damage_entry.grid(column='1', row='4')
-touch_consume_entry.grid(column='1', row='5')
+touch_damage_entry.grid(sticky='W', column='1', row='4')
+touch_consume_entry.grid(sticky='W', column='1', row='5')
 
-sound_damage_entry.grid(column='1', row='6')
-sound_consume_entry.grid(column='1', row='7')
+sound_damage_entry.grid(sticky='W', column='1', row='6')
+sound_consume_entry.grid(sticky='W', column='1', row='7')
 
-cure1_recovered_hp_entry.grid(column='1', row='8')
-cure1_consume_entry.grid(column='1', row='9')
+cure1_recovered_hp_entry.grid(sticky='W', column='1', row='8')
+cure1_consume_entry.grid(sticky='W', column='1', row='9')
 
-cure2_recovered_hp_entry.grid(column='1', row='10')
-cure2_consume_entry.grid(column='1', row='11')
+cure2_recovered_hp_entry.grid(sticky='W', column='1', row='10')
+cure2_consume_entry.grid(sticky='W', column='1', row='11')
 
-cure3_recovered_hp_entry.grid(column='1', row='12')
-cure3_consume_entry.grid(column='1', row='13')
+cure3_recovered_hp_entry.grid(sticky='W', column='1', row='12')
+cure3_consume_entry.grid(sticky='W', column='1', row='13')
 
-tank_hp_entry.grid(column='1', row='14')
-tank_force_entry.grid(column='1', row='15')
-tank_nr_attacks_entry.grid(column='1', row='16')
+tank_hp_entry.grid(sticky='W', column='1', row='14')
+tank_force_entry.grid(sticky='W', column='1', row='15')
+tank_nr_attacks_entry.grid(sticky='W', column='1', row='16')
 
-artillery_hp_entry.grid(column='1', row='17')
-artillery_force_entry.grid(column='1', row='18')
-artillery_nr_attacks_entry.grid(column='1', row='19')
+artillery_hp_entry.grid(sticky='W', column='1', row='17')
+artillery_force_entry.grid(sticky='W', column='1', row='18')
+artillery_nr_attacks_entry.grid(sticky='W', column='1', row='19')
 
-infantry_hp_entry.grid(column='1', row='20')
-infantry_force_entry.grid(column='1', row='21')
-infantry_nr_attacks_entry.grid(column='1', row='22')
+infantry_hp_entry.grid(sticky='W', column='1', row='20')
+infantry_force_entry.grid(sticky='W', column='1', row='21')
+infantry_nr_attacks_entry.grid(sticky='W', column='1', row='22')
 
-min_dist_entry.grid(column='1', row='23')
-r_entry.grid(column='1', row='24')
-straight_speed_entry.grid(column='1', row='25')
-straight_acceleration_entry.grid(column='1', row='26')
-turn_rate_entry.grid(column='1', row='27')
-turn_acceleration_entry.grid(column='1', row='28')
+min_dist_entry.grid(sticky='W', column='1', row='23')
+r_entry.grid(sticky='W', column='1', row='24')
+straight_speed_entry.grid(sticky='W', column='1', row='25')
+straight_acceleration_entry.grid(sticky='W', column='1', row='26')
+turn_rate_entry.grid(sticky='W', column='1', row='27')
+turn_acceleration_entry.grid(sticky='W', column='1', row='28')
 
 #Display bot frame
-bot_label_frame.pack(side=LEFT, ipady=50, ipadx=50)
-bot_frame.pack(fill='x', ipady=20)
+bot_label_frame.pack(side=LEFT, pady=5)
+bot_frame.pack()
 #attacks frame
-bot_attacks_frame.pack(fill='x', ipady=20)
-crane_frame.pack()
-touch_frame.pack()
-sound_frame.pack()
+bot_attacks_frame.pack(fill='both')
+crane_frame.pack(pady=9, fill='both')
+touch_frame.pack(pady=9, fill='both')
+sound_frame.pack(pady=9, fill='both')
 #cures frame
-cures_label_frame.pack(fill='x', ipady=20)
-cure1_frame.pack()
-cure2_frame.pack()
-cure3_frame.pack()
+cures_label_frame.pack(fill='both')
+cure1_frame.pack(pady=9, fill='both')
+cure2_frame.pack(pady=9, fill='both')
+cure3_frame.pack(pady=9, fill='both')
+#parent frame
+parent_frame.pack(side=LEFT)
 #enemies frame
-enemies_label_frame.pack()
-tank_frame.pack()
-art_frame.pack()
-inf_frame.pack()
+enemies_label_frame.pack(fill='both')
+tank_frame.pack(pady=9, fill='both')
+art_frame.pack(pady=9, fill='both')
+inf_frame.pack(pady=9, fill='both')
 #other 
 other_label_frame.pack()
 
 #buttons
-start_button.pack(side=RIGHT, padx=15)
-stop_button.pack(side=RIGHT, padx=15)
+start_button.pack(side=BOTTOM)
+stop_button.pack(side=BOTTOM)
 
 
 def main():
@@ -467,7 +471,7 @@ def main():
 
     else :
         print('Game started = '+ str(vars['gameStarted']))
-        stop_program()
+        quit()
 
 if __name__ == '__main__' :
     main()

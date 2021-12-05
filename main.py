@@ -32,6 +32,7 @@ robot.settings(vars['straight_speed'], vars['straight_acceleration'], vars['turn
 #Initialise variables
 colors_enemy = (Color.BLUE, Color.YELLOW, Color.RED)
 
+#Flags
 colorDetected = False
 enemyDetected = False
 
@@ -122,14 +123,3 @@ def crane_atack() :
     robot.turn(90)
     robot.stop()
     crane_motor_out_a.run_target(1000, 360*5)
-
-# Write your program here.
-def main():
-
-    ev3.speaker.say("Program Started")
-    
-    print("Hello World!")
-    CountEnemies()
-    
-if __name__ == '__main__':
-   main()
