@@ -1,6 +1,6 @@
 import tkinter as tk
 from brains import *
-# import main
+import main
 import importlib
 
 root = tk.Tk()
@@ -173,7 +173,7 @@ def turn_acceleration_change(var, indx, mode) :
     vars['turn_acceleration'] = turn_acceleration_entry.get() 
 
 def start_program() :
-    # importlib.reload(main)
+    importlib.reload(main)
     print('Program was started! ')
     print("Bot_HP now is " + str(vars['bot_hp']))
 
