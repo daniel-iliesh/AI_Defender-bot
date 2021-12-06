@@ -70,10 +70,17 @@ def CountEnemies() :
         LoseEnemy()
         Scan()
         if enemyDetected == True:
-            vars['enemies'] += 1
-            vars['enemies_positions'].append(GyroSensor_in_3.angle())
-            vars['enemies_distances'].append(UltrasonicSensor_in_1.distance())
-            print("Slot # :" + str(vars['enemies']) + " found on :" + str(GyroSensor_in_3.angle()) + "° at :" + str(UltrasonicSensor_in_1.distance()/10) +"cm")
+            print(x)
+            for x in vars['enemies_positions'][-1]:
+                if GyroSensor_in_3.angle()<x+40 and GyroSensor_in_3.angle()>x-40:                    
+                    vars['enemies'] += 1
+                    if GyroSensor_in_3.angle() >360:
+                        while GyroSensor_in_3.angle() >360:
+                            GyroSensor_in_3.angle(GyroSensor_in_3.angle()-360)
+
+                    vars['enemies_positions'].append(GyroSensor_in_3.angle())
+                    vars['enemies_distances'].append(UltrasonicSensor_in_1.distance())
+                    print("Slot # :" + str(vars['enemies']) + " found on :" + str(GyroSensor_in_3.angle()) + "° at :" + str(UltrasonicSensor_in_1.distance()/10) +"cm")
     
     print("Bot found " + str(vars['enemies']) + " enemies")
     accumulated_angle = GyroSensor_in_3.angle()
