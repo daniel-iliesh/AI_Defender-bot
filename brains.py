@@ -1,6 +1,4 @@
 import random
-from tkinter import *
-from tkinter.ttk import *
 from random import randint
 
 #Functions            

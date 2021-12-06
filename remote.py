@@ -1,6 +1,7 @@
 import tkinter as tk
+from tkinter.ttk import *
 from brains import *
-import main
+# import main
 import importlib
 
 root = tk.Tk()
@@ -22,83 +23,46 @@ root.resizable(False, False)
 root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 
 #######################################__________________VARIABLES________________________############################################
-vars = {
-    'bot_hp' : 750,
-    'bot_energy' : 500,
-    'crane_damage' : 200,
-    'crane_consume' : 300,
-    'touch_damage' : 100, 
-    'touch_consume' : 150,
-    'sound_damage' : 50, 
-    'sound_consume' : 50, 
-    'cure1_recovered_hp' : 100,
-    'cure1_consume' : 200, 
-    'cure2_recovered_hp' : 200,
-    'cure2_consume' : 300,
-    'cure3_recovered_hp' : 400,
-    'cure3_consume' : 400,
-    'tank_hp' : 200,
-    'tank_force' : 200,
-    'tank_nr_attacks' : 2,
-    'artillery_hp' : 50,
-    'artillery_force' : 500,
-    'artillery_nr_attacks' : 1,
-    'infantry_hp' : 100,
-    'infantry_force' : 100,
-    'infantry_nr_attacks' : 3,
-    'min_dist': 40,
-    'r' : 450,
-    'straight_speed' : 200,
-    'straight_acceleration' : 100,
-    'turn_rate' : 100,
-    'turn_acceleration' : 100,
-    'enemies' : 0,
-    'enemies_total' : 6,
-    'gameStarted' : False,
-    'enemy_slots' : [],
-    'enemies_positions' : [],
-    'enemies_distances' : []
-}
 #_________IntVars_________
-bot_hp_var = IntVar(value=vars['bot_hp'])
-bot_energy_var = IntVar(value=vars['bot_energy'])
+bot_hp_var = tk.IntVar(value=vars['bot_hp'])
+bot_energy_var = tk.IntVar(value=vars['bot_energy'])
 
-crane_damage_var = IntVar(value=vars['crane_damage'])
-crane_consume_var = IntVar(value=vars['crane_consume'])
+crane_damage_var = tk.IntVar(value=vars['crane_damage'])
+crane_consume_var = tk.IntVar(value=vars['crane_consume'])
 
-touch_damage_var = IntVar(value=vars['touch_damage'])
-touch_consume_var = IntVar(value=vars['touch_consume'])
+touch_damage_var = tk.IntVar(value=vars['touch_damage'])
+touch_consume_var = tk.IntVar(value=vars['touch_consume'])
 
-sound_damage_var = IntVar(value=vars['sound_damage'])
-sound_consume_var = IntVar(value=vars['sound_consume'])
+sound_damage_var = tk.IntVar(value=vars['sound_damage'])
+sound_consume_var = tk.IntVar(value=vars['sound_consume'])
 
-cure1_recovered_hp_var = IntVar(value=vars['cure1_recovered_hp'])
-cure1_consume_var = IntVar(value=vars['cure1_consume'])
+cure1_recovered_hp_var = tk.IntVar(value=vars['cure1_recovered_hp'])
+cure1_consume_var = tk.IntVar(value=vars['cure1_consume'])
 
-cure2_recovered_hp_var = IntVar(value=vars['cure2_recovered_hp'])
-cure2_consume_var = IntVar(value=vars['cure2_consume'])
+cure2_recovered_hp_var = tk.IntVar(value=vars['cure2_recovered_hp'])
+cure2_consume_var = tk.IntVar(value=vars['cure2_consume'])
 
-cure3_recovered_hp_var = IntVar(value=vars['cure3_recovered_hp'])
-cure3_consume_var = IntVar(value=vars['cure3_consume'])
+cure3_recovered_hp_var = tk.IntVar(value=vars['cure3_recovered_hp'])
+cure3_consume_var = tk.IntVar(value=vars['cure3_consume'])
 
-tank_hp_var = IntVar(value=vars['tank_hp'])
-tank_force_var = IntVar(value=vars['tank_force'])
-tank_nr_attacks_var = IntVar(value=vars['tank_nr_attacks'])
+tank_hp_var = tk.IntVar(value=vars['tank_hp'])
+tank_force_var = tk.IntVar(value=vars['tank_force'])
+tank_nr_attacks_var = tk.IntVar(value=vars['tank_nr_attacks'])
 
-artillery_hp_var = IntVar(value=vars['artillery_hp'])
-artillery_force_var = IntVar(value=vars['artillery_force'])
-artillery_nr_attacks_var = IntVar(value=vars['artillery_nr_attacks'])
+artillery_hp_var = tk.IntVar(value=vars['artillery_hp'])
+artillery_force_var = tk.IntVar(value=vars['artillery_force'])
+artillery_nr_attacks_var = tk.IntVar(value=vars['artillery_nr_attacks'])
 
-infantry_hp_var = IntVar(value=vars['infantry_hp'])
-infantry_force_var = IntVar(value=vars['infantry_force'])
-infantry_nr_attacks_var = IntVar(value=vars['infantry_nr_attacks'])
+infantry_hp_var = tk.IntVar(value=vars['infantry_hp'])
+infantry_force_var = tk.IntVar(value=vars['infantry_force'])
+infantry_nr_attacks_var = tk.IntVar(value=vars['infantry_nr_attacks'])
 
-min_dist_var = IntVar(value=vars['min_dist'])
-r_var = IntVar(value=vars['r'])
-straight_speed_var = IntVar(value=vars['straight_speed'])
-straight_acceleration_var = IntVar(value=vars['straight_acceleration'])
-turn_rate_var = IntVar(value=vars['turn_rate'])
-turn_acceleration_var = IntVar(value=vars['turn_acceleration'])
+min_dist_var = tk.IntVar(value=vars['min_dist'])
+r_var = tk.IntVar(value=vars['r'])
+straight_speed_var = tk.IntVar(value=vars['straight_speed'])
+straight_acceleration_var = tk.IntVar(value=vars['straight_acceleration'])
+turn_rate_var = tk.IntVar(value=vars['turn_rate'])
+turn_acceleration_var = tk.IntVar(value=vars['turn_acceleration'])
 
 
 
@@ -173,7 +137,7 @@ def turn_acceleration_change(var, indx, mode) :
     vars['turn_acceleration'] = turn_acceleration_entry.get() 
 
 def start_program() :
-    importlib.reload(main)
+    # importlib.reload(main)
     print('Program was started! ')
     print("Bot_HP now is " + str(vars['bot_hp']))
 
@@ -293,45 +257,45 @@ turn_acceleration_label = Label(other_label_frame, text='Turn-Acceleration')
 
 
 #______________Entries Create_____________
-bot_hp_entry = Entry(bot_frame, justify=CENTER, textvariable=bot_hp_var)
-bot_energy_entry = Entry(bot_frame, justify=CENTER, textvariable=bot_energy_var)
+bot_hp_entry = Entry(bot_frame, justify=tk.CENTER, textvariable=bot_hp_var)
+bot_energy_entry = Entry(bot_frame, justify=tk.CENTER, textvariable=bot_energy_var)
 
-crane_damage_entry = Entry(crane_frame, justify=CENTER, textvariable=crane_damage_var)
-crane_consume_entry = Entry(crane_frame, justify=CENTER, textvariable=crane_consume_var)
+crane_damage_entry = Entry(crane_frame, justify=tk.CENTER, textvariable=crane_damage_var)
+crane_consume_entry = Entry(crane_frame, justify=tk.CENTER, textvariable=crane_consume_var)
 
-touch_damage_entry = Entry(touch_frame, justify=CENTER, textvariable=touch_damage_var)
-touch_consume_entry = Entry(touch_frame, justify=CENTER, textvariable=touch_consume_var)
+touch_damage_entry = Entry(touch_frame, justify=tk.CENTER, textvariable=touch_damage_var)
+touch_consume_entry = Entry(touch_frame, justify=tk.CENTER, textvariable=touch_consume_var)
 
-sound_damage_entry = Entry(sound_frame, justify=CENTER, textvariable=sound_damage_var)
-sound_consume_entry = Entry(sound_frame, justify=CENTER, textvariable=sound_consume_var)
+sound_damage_entry = Entry(sound_frame, justify=tk.CENTER, textvariable=sound_damage_var)
+sound_consume_entry = Entry(sound_frame, justify=tk.CENTER, textvariable=sound_consume_var)
 
-cure1_recovered_hp_entry = Entry(cure1_frame, justify=CENTER, textvariable=cure1_recovered_hp_var)
-cure1_consume_entry = Entry(cure1_frame, justify=CENTER, textvariable=cure1_consume_var)
+cure1_recovered_hp_entry = Entry(cure1_frame, justify=tk.CENTER, textvariable=cure1_recovered_hp_var)
+cure1_consume_entry = Entry(cure1_frame, justify=tk.CENTER, textvariable=cure1_consume_var)
 
-cure2_recovered_hp_entry = Entry(cure2_frame, justify=CENTER, textvariable=cure2_recovered_hp_var)
-cure2_consume_entry = Entry(cure2_frame, justify=CENTER, textvariable=cure2_consume_var)
+cure2_recovered_hp_entry = Entry(cure2_frame, justify=tk.CENTER, textvariable=cure2_recovered_hp_var)
+cure2_consume_entry = Entry(cure2_frame, justify=tk.CENTER, textvariable=cure2_consume_var)
 
-cure3_recovered_hp_entry = Entry(cure3_frame, justify=CENTER, textvariable=cure3_recovered_hp_var)
-cure3_consume_entry = Entry(cure3_frame, justify=CENTER, textvariable=cure3_consume_var)
+cure3_recovered_hp_entry = Entry(cure3_frame, justify=tk.CENTER, textvariable=cure3_recovered_hp_var)
+cure3_consume_entry = Entry(cure3_frame, justify=tk.CENTER, textvariable=cure3_consume_var)
 
-tank_hp_entry = Entry(tank_frame, justify=CENTER, textvariable=tank_hp_var)
-tank_force_entry = Entry(tank_frame, justify=CENTER, textvariable=tank_force_var)
-tank_nr_attacks_entry = Entry(tank_frame, justify=CENTER, textvariable=tank_nr_attacks_var)
+tank_hp_entry = Entry(tank_frame, justify=tk.CENTER, textvariable=tank_hp_var)
+tank_force_entry = Entry(tank_frame, justify=tk.CENTER, textvariable=tank_force_var)
+tank_nr_attacks_entry = Entry(tank_frame, justify=tk.CENTER, textvariable=tank_nr_attacks_var)
 
-artillery_hp_entry = Entry(art_frame, justify=CENTER, textvariable=artillery_hp_var)
-artillery_force_entry = Entry(art_frame, justify=CENTER, textvariable=artillery_force_var)
-artillery_nr_attacks_entry = Entry(art_frame, justify=CENTER, textvariable=artillery_nr_attacks_var)
+artillery_hp_entry = Entry(art_frame, justify=tk.CENTER, textvariable=artillery_hp_var)
+artillery_force_entry = Entry(art_frame, justify=tk.CENTER, textvariable=artillery_force_var)
+artillery_nr_attacks_entry = Entry(art_frame, justify=tk.CENTER, textvariable=artillery_nr_attacks_var)
 
-infantry_hp_entry = Entry(inf_frame, justify=CENTER, textvariable=infantry_hp_var)
-infantry_force_entry = Entry(inf_frame, justify=CENTER, textvariable=infantry_force_var)
-infantry_nr_attacks_entry = Entry(inf_frame, justify=CENTER, textvariable=infantry_nr_attacks_var)
+infantry_hp_entry = Entry(inf_frame, justify=tk.CENTER, textvariable=infantry_hp_var)
+infantry_force_entry = Entry(inf_frame, justify=tk.CENTER, textvariable=infantry_force_var)
+infantry_nr_attacks_entry = Entry(inf_frame, justify=tk.CENTER, textvariable=infantry_nr_attacks_var)
 
-min_dist_entry = Entry(other_label_frame, justify=CENTER, textvariable=min_dist_var)
-r_entry = Entry(other_label_frame, justify=CENTER, textvariable=r_var)
-straight_speed_entry = Entry(other_label_frame, justify=CENTER, textvariable=straight_speed_var)
-straight_acceleration_entry = Entry(other_label_frame, justify=CENTER, textvariable=straight_acceleration_var)
-turn_rate_entry = Entry(other_label_frame, justify=CENTER, textvariable=turn_rate_var)
-turn_acceleration_entry = Entry(other_label_frame, justify=CENTER, textvariable=turn_acceleration_var)
+min_dist_entry = Entry(other_label_frame, justify=tk.CENTER, textvariable=min_dist_var)
+r_entry = Entry(other_label_frame, justify=tk.CENTER, textvariable=r_var)
+straight_speed_entry = Entry(other_label_frame, justify=tk.CENTER, textvariable=straight_speed_var)
+straight_acceleration_entry = Entry(other_label_frame, justify=tk.CENTER, textvariable=straight_acceleration_var)
+turn_rate_entry = Entry(other_label_frame, justify=tk.CENTER, textvariable=turn_rate_var)
+turn_acceleration_entry = Entry(other_label_frame, justify=tk.CENTER, textvariable=turn_acceleration_var)
 
 #Create Buttons 
 start_button = Button(parent_frame, text='Start Program', command=start_program)
@@ -421,7 +385,7 @@ turn_rate_entry.grid(sticky='W', column='1', row='27')
 turn_acceleration_entry.grid(sticky='W', column='1', row='28')
 
 #Display bot frame
-bot_label_frame.pack(side=LEFT, pady=5)
+bot_label_frame.pack(side=tk.LEFT, pady=5)
 bot_frame.pack()
 #attacks frame
 bot_attacks_frame.pack(fill='both')
@@ -434,7 +398,7 @@ cure1_frame.pack(pady=9, fill='both')
 cure2_frame.pack(pady=9, fill='both')
 cure3_frame.pack(pady=9, fill='both')
 #parent frame
-parent_frame.pack(side=LEFT)
+parent_frame.pack(side=tk.LEFT)
 #enemies frame
 enemies_label_frame.pack(fill='both')
 tank_frame.pack(pady=9, fill='both')
@@ -444,35 +408,7 @@ inf_frame.pack(pady=9, fill='both')
 other_label_frame.pack()
 
 #buttons
-start_button.pack(side=BOTTOM)
-stop_button.pack(side=BOTTOM)
+start_button.pack(side=tk.BOTTOM)
+stop_button.pack(side=tk.BOTTOM)
 
-
-def main():
-
-    #Defining all attacks, cures and enemies
-    vars['gameStarted'] = True
-    if vars['gameStarted'] == True :
-
-        Defender_Bot = Defender()
-
-        Crane_Attack = Defender_Bot.Attack('Crane', vars['crane_damage'], vars['crane_consume'])
-        Touch_Attack = Defender_Bot.Attack('Touch', vars['touch_damage'], vars['touch_consume'])
-        Sound_Attack = Defender_Bot.Attack('Sound', vars['sound_damage'], vars['sound_consume'])
-
-        Cure_1 = Defender_Bot.Cure('Cure1', vars['cure1_recovered_hp'], vars['cure1_consume'])
-        Heal_2 = Defender_Bot.Cure('Cure2', vars['cure2_recovered_hp'], vars['cure2_consume'])
-        Heal_3 = Defender_Bot.Cure('Cure3', vars['cure3_recovered_hp'], vars['cure3_consume'])
-        
-        #________________________________________________________________
-        
-        print('Bot - hp ' + str(vars['bot_hp']))
-        print('Game started = '+ str(vars['gameStarted']))
-
-    else :
-        print('Game started = '+ str(vars['gameStarted']))
-        quit()
-
-if __name__ == '__main__' :
-    main()
-    root.mainloop()
+root.mainloop()

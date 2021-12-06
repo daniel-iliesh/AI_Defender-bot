@@ -6,8 +6,8 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
+from globals import *
 from brains import *
-from remote import *
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -73,7 +73,7 @@ def CountEnemies() :
             vars['enemies'] += 1
             vars['enemies_positions'].append(GyroSensor_in_3.angle())
             vars['enemies_distances'].append(UltrasonicSensor_in_1.distance())
-            print("Slot # :" + str(enemies) + " found on :" + str(GyroSensor_in_3.angle()) + "° at :" + str(UltrasonicSensor_in_1.distance()) +"cm")
+            print("Slot # :" + str(vars['enemies']) + " found on :" + str(GyroSensor_in_3.angle()) + "° at :" + str(UltrasonicSensor_in_1.distance()/10) +"cm")
     
     print("Bot found " + str(vars['enemies']) + " enemies")
     accumulated_angle = GyroSensor_in_3.angle()
@@ -123,7 +123,29 @@ def crane_atack() :
     robot.turn(90)
     robot.stop()
     crane_motor_out_a.run_target(1000, 360*5)
+    
+
+
+def main():
+
+    #Defining all attacks, cures and enemies
+    Defender_Bot = Defender()
+
+    Crane_Attack = Defender_Bot.Attack('Crane', vars['crane_damage'], vars['crane_consume'])
+    Touch_Attack = Defender_Bot.Attack('Touch', vars['touch_damage'], vars['touch_consume'])
+    Sound_Attack = Defender_Bot.Attack('Sound', vars['sound_damage'], vars['sound_consume'])
+
+    Cure_1 = Defender_Bot.Cure('Cure1', vars['cure1_recovered_hp'], vars['cure1_consume'])
+    Heal_2 = Defender_Bot.Cure('Cure2', vars['cure2_recovered_hp'], vars['cure2_consume'])
+    Heal_3 = Defender_Bot.Cure('Cure3', vars['cure3_recovered_hp'], vars['cure3_consume'])
+    
+    #________________________________________________________________
+        
+    CountEnemies()
+    time.sleep(2)
+    
 
 if __name__ == '__main__' :
+    main()
     CountEnemies()
-    GoToEnemy(0)
+    GoToEnemy(1)
