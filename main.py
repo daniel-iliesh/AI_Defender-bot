@@ -6,6 +6,7 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
+import time
 from globals import *
 from brains import *
 
@@ -66,7 +67,9 @@ def CountEnemies() :
     if UltrasonicSensor_in_1.distance() < vars['r']:
         enemyDetected = True
     
-    while GyroSensor_in_3.angle() > -360 and vars['enemies'] < vars['enemies_total']:
+    while vars['enemies'] < vars['enemies_total']:
+        for x in vars['enemies_positions']:
+            if GyroSensor_in_3.angle()>x+40 or GyroSensor_in_3.angle()<x-40
         LoseEnemy()
         Scan()
         if enemyDetected == True:
@@ -78,7 +81,8 @@ def CountEnemies() :
     print("Bot found " + str(vars['enemies']) + " enemies")
     accumulated_angle = GyroSensor_in_3.angle()
     robot.stop()
-    
+    vars['enemies_positions'].sort()
+
 def GoToEnemy(slot):
     global recorded_moves
     slot -= 1
