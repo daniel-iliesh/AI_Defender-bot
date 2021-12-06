@@ -143,9 +143,8 @@ def main():
         
     CountEnemies()
     time.sleep(2)
-    
+    GoToEnemy(1)
+
 
 if __name__ == '__main__' :
     main()
-    CountEnemies()
-    GoToEnemy(1)
