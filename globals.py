@@ -23,7 +23,7 @@ vars = {
     'infantry_force' : 100,
     'infantry_nr_attacks' : 3,
     'min_dist': 40,
-    'r' : 700,
+    'r' : 800,
     'straight_speed' : 200,
     'straight_acceleration' : 100,
     'turn_rate' : 100,

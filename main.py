@@ -6,6 +6,7 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
+import time
 from globals import *
 from brains import *
 
@@ -70,17 +71,10 @@ def CountEnemies() :
         LoseEnemy()
         Scan()
         if enemyDetected == True:
-            print(x)
-            for x in vars['enemies_positions'][-1]:
-                if GyroSensor_in_3.angle()<x+40 and GyroSensor_in_3.angle()>x-40:                    
-                    vars['enemies'] += 1
-                    if GyroSensor_in_3.angle() >360:
-                        while GyroSensor_in_3.angle() >360:
-                            GyroSensor_in_3.angle(GyroSensor_in_3.angle()-360)
-
-                    vars['enemies_positions'].append(GyroSensor_in_3.angle())
-                    vars['enemies_distances'].append(UltrasonicSensor_in_1.distance())
-                    print("Slot # :" + str(vars['enemies']) + " found on :" + str(GyroSensor_in_3.angle()) + "° at :" + str(UltrasonicSensor_in_1.distance()/10) +"cm")
+            vars['enemies'] += 1
+            vars['enemies_positions'].append(GyroSensor_in_3.angle())
+            vars['enemies_distances'].append(UltrasonicSensor_in_1.distance())
+            print("Slot # :" + str(vars['enemies']) + " found on :" + str(GyroSensor_in_3.angle()) + "° at :" + str(UltrasonicSensor_in_1.distance()/10) +"cm")
     
     print("Bot found " + str(vars['enemies']) + " enemies")
     accumulated_angle = GyroSensor_in_3.angle()
@@ -148,10 +142,9 @@ def main():
     
     #________________________________________________________________
         
-    CountEnemies()
-    time.sleep(2)
-    GoToEnemy(1)
-
+    # CountEnemies()
+    # time.sleep(2)
+    # GoToEnemy(1)
 
 if __name__ == '__main__' :
     main()
