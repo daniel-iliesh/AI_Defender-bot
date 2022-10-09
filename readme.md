@@ -1,0 +1,1 @@
+Site with agenda of development - https://sites.google.com/view/defender-bot-2122 (more information here)
