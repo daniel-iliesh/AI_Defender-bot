@@ -128,7 +128,40 @@ def crane_atack() :
     robot.stop()
     crane_motor_out_a.run_target(1000, 360*5)
     
+    def info(self) :
+        print("______________________")
+        print("_____ENEMY_____\n")
+        print("HP : " + str(self.hp))
+        print("STRENGHT : " + str(self.strenght))
+        print("NR_OF_ATTACKS : " + str(self.nr_of_attacks))
+        print("IMPACT ATTACK : " + "I/A Formula needed")
+        print("\n\n")
+        print("______________________")
 
+#_________________________________________________________________________________
+
+# Write your program here.
+
+def main():
+
+    #Defining all attacks, cures and enemies
+
+    ev3.speaker.say("Program Started")
+
+    Defender_Bot = Defender()
+
+    Crane_Attack = Defender_Bot.Attack(crane_damage, crane_consume)
+    Touch_Attack = Defender_Bot.Attack(touch_damage, touch_consume)
+    Sound_Attack = Defender_Bot.Attack(sound_damage, sound_consume)
+
+    Cure_1 = Defender_Bot.Cure(cure1_recovered_hp, cure1_consume)
+    Heal_2 = Defender_Bot.Cure(cure2_recovered_hp, cure2_consume)
+    Heal_3 = Defender_Bot.Cure(cure3_recovered_hp, cure3_consume)
+
+    Tank = Enemy( tank_hp, tank_force, tank_nr_attacks)
+    Artillery = Enemy(artillery_hp, artillery_force, artillery_nr_attacks)
+    Infantry = Enemy(infantry_hp, infantry_force, infantry_nr_attacks)
+    #________________________________________________________________
 
 def main():
 
@@ -152,3 +185,4 @@ def main():
 
 if __name__ == '__main__' :
     main()
+
